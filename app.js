@@ -9,6 +9,9 @@ let index = require('./routes/index');
 let users = require('./routes/users');
 let vistas= require('./routes/main');
 
+let multer = require('multer');
+let upload=multer({dest : './temp/uploads/'}).single('photo');
+
 let app = express();
 
 // view engine setup
@@ -22,9 +25,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'ServerDB')));
 
 app.use('/', vistas);
-app.use('/api', index);
+app.use('/api',upload, index);
 app.use('/users', users);
 
 // catch 404 and forward to error handler

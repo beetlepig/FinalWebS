@@ -1,11 +1,7 @@
-const form = jQuery('#formularioLogin');
-
-
-
-
-
-
-
+/**
+ * Created by sky_k on 18/05/2017.
+ */
+const form = jQuery('#registroFrom');
 
 
 
@@ -14,21 +10,27 @@ const form = jQuery('#formularioLogin');
 
 //LISTENERS
 form.submit((event)=>{
-   event.preventDefault();
-   const url= form.prop('action');
-   const formito= new FormData(form[0]);
+    event.preventDefault();
+    const url= form.prop('action');
+    const formito= new FormData(form[0]);
     for (let pair of formito.entries()) {
         console.log(pair[0]+ ', ' + pair[1]);
     }
-   postAjax(url,formito).always((data,status)=>{
-        if(status==="error"){
-            window.alert(data.responseText);
+    postAjax(url,formito).always((data,status)=>{
+        if(status==="success"){
+            window.location.replace("/")
         } else {
-            window.alert("correcto");
+            window.alert(data.responseText);
         }
-   })
+    })
 
 });
+
+
+
+
+
+
 
 
 

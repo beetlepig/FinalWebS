@@ -7,7 +7,11 @@ let router = express.Router();
 
 
 router.get('/',(req,res,next)=>{
-    res.render("index",{title: "hola"});
+    res.render("index");
+});
+
+router.get('/registro',(req,res,next)=>{
+    res.render("registro");
 });
 
 

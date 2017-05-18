@@ -1,0 +1,31 @@
+<form action="/api//users/create" method="post" id="registroFrom" enctype="multipart/form-data">
+    <ul>
+        <li>
+            <input type="text" placeholder="Nombre Del Usuario" name="nickname" required>
+        </li>
+        <li>
+            <input type="text" placeholder="Nombre(s)" name="nombre" required>
+        </li>
+        <li>
+            <input type="text" placeholder="Apellidos(s)" name="apellido" required>
+        </li>
+        <li>
+            <input type="email" placeholder="Correo Electronico" name="correo" required>
+        </li>
+        <li>
+            <input type="password" placeholder="Contraseña" name="pass" required>
+        </li>
+        <li>
+            <input type="text" placeholder="Pais" name="pais" required>
+        </li>
+        <li>
+        <input type="file" id="uploadID" name="photo" accept="image/x-png,image/gif,image/jpeg" required>
+        </li>
+        <li>
+            <input type="text" placeholder="Color in hex" name="color" required>
+        </li>
+    </ul>
+    <button type="submit" value="Enviar">Registrarse</button>
+</form>
+
+<script type="application/javascript" src="http://localhost:3000/javascripts/registro.js"></script>

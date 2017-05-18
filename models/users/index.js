@@ -1,7 +1,7 @@
 let db = require('../../DBMYSQL/index');
 
-exports.create = function(nombre, apellido, nickname, pass, correo , img , done) {
-    let values = [nombre, apellido, nickname, pass, correo, img];
+exports.create = function(nombre, apellido, nickname, pass, correo , img ,pais, color, done) {
+    let values = [nickname, nombre, apellido, correo, pass, pais, img, color];
 
     db.get().getConnection(function (err,connection) {
         if (err){
@@ -9,10 +9,12 @@ exports.create = function(nombre, apellido, nickname, pass, correo , img , done)
             console.log(err);
             return done(err);
         } else {
-            connection.query('INSERT INTO usuarios (nombre, apellido, nickname, pass, correo, imgsrc) VALUES(?, ?, ?, ?, ?, ?)', values, function(err, result) {
-                if (err)
+            connection.query('INSERT INTO user (username, name, lastname, email, password, pais, profilepic, color) VALUES(?, ?, ?, ?, ?, ?, ?, ?)', values, function(err, result) {
+                if (err) {
                     return done(err);
-                done(null, result.insertId);
+                } else {
+                    done(null, result.insertId);
+                }
             });
 
             connection.release();
@@ -28,7 +30,7 @@ exports.getAll = function(done) {
             console.log(err);
             return done(err,null);
         } else {
-            connection.query('SELECT * FROM usuarios', function (err, rows)  {
+            connection.query('SELECT * FROM user', function (err, rows)  {
                 if (err)
                     return done(err);
                 done(null, rows);

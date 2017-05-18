@@ -1,8 +1,6 @@
 let DB= require('../../models/users');
 let fs = require('fs');
 let mkdirp = require('mkdirp');
-let correo;
-let pass;
 
 let createUser = function (req, res) {
     let nombre = req.body.nombre;
@@ -10,16 +8,20 @@ let createUser = function (req, res) {
     let nickname = req.body.nickname;
     let pass = req.body.pass;
     let correo = req.body.correo;
+    let pais= req.body.pais;
+    let color= req.body.color;
     let extencion = req.file.originalname.split(".")[req.file.originalname.split(".").length -1];
-    let targetPath = '../ServerDB/Users/'+nickname+"."+correo+'/' + nickname+"_"+correo+"_ProfilePic" +"."+extencion;
+    let targetPath = './ServerDB/Users/'+nickname+"."+correo+'/' + nickname+"_"+correo+"_ProfilePic" +"."+extencion;
     console.log(nombre);
     console.log(apellido);
     console.log(nickname);
     console.log(pass);
     console.log(correo);
+    console.log(pais);
+    console.log(color);
     console.log(targetPath);
 
-    mkdirp('../ServerDB/Users/'+nickname+"."+correo+'/', function(err) {
+    mkdirp('./ServerDB/Users/'+nickname+"."+correo+'/', function(err) {
 
         if(!err){
             fs.rename(req.file.path, targetPath, function(err) {
@@ -30,6 +32,8 @@ let createUser = function (req, res) {
 
 
             });
+        } else {
+            throw err;
         }
 
     });
@@ -38,7 +42,7 @@ let createUser = function (req, res) {
 
 
     let src= nickname+"."+correo+'/' + nickname+"_"+correo+"_ProfilePic" +"."+extencion;
-    DB.create(nombre, apellido, nickname, pass, correo, src, function(err, result) {
+    DB.create(nombre, apellido, nickname, pass, correo, src, pais, color, function(err, result) {
 
             if (err) {
                 res.status(500).json(err);
@@ -77,11 +81,13 @@ let getUsers = function (req, res) {
         } else {
             console.log(usuario);
             res.status(200).json({
-                nombre: usuario.nombre,
-                apellido: usuario.apellido,
-                nickname: usuario.nickname,
-                correo: usuario.correo,
-                profilePic: usuario.imgsrc
+                nombre: usuario.name,
+                apellido: usuario.lastname,
+                nickname: usuario.username,
+                correo: usuario.email,
+                profilePic: usuario.profilePic,
+                pais: usuario.pais,
+                color: usuario.color
                                  });
         }
 
@@ -100,17 +106,17 @@ function comprobarUsuario(usuario) {
 
             for (let i=0;i<usuariosTodos.length;i++){
                 let user= usuariosTodos[i];
-                if(user.correo===correo && user.pass===pass){
+                if(user.email===correo && user.password===pass){
                     //  console.log("entro concidencia");
                     err=null;
                     usuariorel=user;
                     break;
-                } else if (user.correo===correo && user.pass!==pass){
+                } else if (user.email===correo && user.password!==pass){
                     err="Contraseña no correcta";
                     usuariorel=null;
                     //  console.log("Contraseña no correcta");
                     break;
-                }else if (user.correo!==correo){
+                }else if (user.email!==correo){
                     err="Correo no encontrado";
                     //  console.log("Correo no encontrado");
                     usuariorel=null;

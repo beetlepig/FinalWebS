@@ -1,4 +1,4 @@
-let DB= require('../../models/Posts/index');
+let DB= require('../../models/Proyectos/index');
 let fs = require('fs');
 let mkdirp = require('mkdirp');
 

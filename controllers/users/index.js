@@ -59,6 +59,8 @@ let getUsers = function (req, res) {
     let respuestaErr;
     correo=req.body.correo;
     pass=req.body.contrasena;
+    console.log(correo);
+    console.log(pass);
     comprobarUsuario(function (err,usuario) {
         if (err){
             if (err==="Contraseña no correcta"){

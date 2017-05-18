@@ -6,10 +6,13 @@ let posts = require('../controllers/Posts/index');
 
 let app= require('../app');
 
+let multer = require('multer');
+let upload = multer();
+
 let router = express.Router();
 
 
-router.post('/users',users.getUsers);
+router.post('/users', upload.fields([]) ,users.getUsers);
 
 router.post('/users/create',users.createUser);
 

@@ -1,2 +1,8 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<h1>Login</h1>
+<form action="http://localhost:3000/api/users" method="post" id="formularioLogin" enctype='multipart/form-data'>
+    <input type="text" placeholder="correo" name="correo">
+    <input type="password" placeholder="contraseña" name="contrasena">
+    <button type="submit">Enviar</button>
+</form>
+
+<script type="application/javascript" src="http://localhost:3000/javascripts/login.js"></script>

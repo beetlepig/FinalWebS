@@ -3,9 +3,6 @@
  */
 let express = require('express');
 
-
-let app= require('../app');
-
 let router = express.Router();
 
 

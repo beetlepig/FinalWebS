@@ -2,7 +2,7 @@ let express = require('express');
 
 let users = require('../controllers/users/index');
 
-let posts = require('../controllers/Posts/index');
+let proyectos = require('../controllers/Proyectos/index');
 
 let app= require('../app');
 
@@ -15,11 +15,11 @@ router.post('/users' ,users.getUsers);
 
 router.post('/users/create' ,users.createUser);
 
-router.get('/posts', posts.getPosts);
+router.post('/proyectos', proyectos.getProyectos);
 
-router.post('/posts/create', posts.createPosts);
+router.post('/posts/create', proyectos.createPosts);
 
-router.post('/like',posts.setLike);
+router.post('/like',proyectos.setLike);
 
 
 

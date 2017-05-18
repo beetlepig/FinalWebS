@@ -14,6 +14,10 @@ router.get('/registro',(req,res,next)=>{
     res.render("registro");
 });
 
+router.get('/proyectos',(req,res,next)=>{
+    res.render("proyectos");
+});
+
 
 
 

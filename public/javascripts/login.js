@@ -25,6 +25,10 @@ form.submit((event)=>{
             window.alert(data.responseText);
         } else {
             window.alert("correcto");
+            sessionStorage.datos=JSON.stringify(data);
+            console.log(JSON.parse(sessionStorage.datos));
+            window.location.replace("/proyectos");
+
         }
    })
 

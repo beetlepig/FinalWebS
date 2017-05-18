@@ -3,8 +3,10 @@ let fs = require('fs');
 let mkdirp = require('mkdirp');
 
 
-function getPosts(req, res) {
-    DB.getAll(function(error, pots) {
+function getProyectos(req, res) {
+    let creador= req.body.creador;
+    console.log(creador);
+    DB.getAll(creador , function(error, pots) {
         if (!error) {
             res.status(200).json(pots);
 
@@ -92,7 +94,7 @@ DB.setLike(id_usuario,id_post, function (err, result) {
 
 
 module.exports = {
-    getPosts,
+    getProyectos,
     createPosts,
     setLike
 };

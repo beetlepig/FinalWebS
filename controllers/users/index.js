@@ -85,7 +85,7 @@ let getUsers = function (req, res) {
                 apellido: usuario.lastname,
                 nickname: usuario.username,
                 correo: usuario.email,
-                profilePic: usuario.profilePic,
+                profilePic: usuario.profilepic,
                 pais: usuario.pais,
                 color: usuario.color
                                  });

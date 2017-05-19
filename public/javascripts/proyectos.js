@@ -26,6 +26,7 @@ function solicutarProyectos() {
         } else {
             window.alert("correcto");
             console.log(data);
+            sessionStorage.proyectos= JSON.stringify(data);
             let listi= $('#listin');
 
             //data contiene un array con los proyectos, el parametro nombre es el nombre del proyecto

@@ -1,6 +1,9 @@
 let urlimg;
 let id_usu;
 let jsonUsu;
+
+const formitoCrear=$('#crearposti');
+
 if(!sessionStorage.datos){
     window.location.replace('/');
 } else {
@@ -24,6 +27,9 @@ function solicutarProyectos() {
             window.alert("correcto");
             console.log(data);
             let listi= $('#listin');
+
+            //data contiene un array con los proyectos, el parametro nombre es el nombre del proyecto
+
             listi.empty();
             $.each(data,(i,value)=>{
                 let item= $('<li>').append("<button>"+value.nombre+"</button>");
@@ -38,6 +44,28 @@ function solicutarProyectos() {
 
 
 
+//LISTENERS
+formitoCrear.submit((event)=>{
+    event.preventDefault();
+    const url= formitoCrear.prop('action');
+    const formito= new FormData(formitoCrear[0]);
+    formito.append("creador",id_usu);
+    for (let pair of formito.entries()) {
+        console.log(pair[0]+ ', ' + pair[1]);
+    }
+    postAjaxFormData(url,formito).always((data,status)=>{
+        if(status==="error"){
+            window.alert(data.responseText);
+        } else {
+            window.alert("correcto");
+            solicutarProyectos();
+        }
+    })
+
+});
+
+
+
 
 //PETICIONES
 function postAjax(url,data) {
@@ -49,5 +77,15 @@ function postAjax(url,data) {
                       data: JSON.stringify(data),
                       processData: false,
                       type: 'POST',
+                  });
+}
+
+function postAjaxFormData(url,data) {
+    return $.ajax({
+                      url: url,
+                      data: data,
+                      processData: false,
+                      type: 'POST',
+                      contentType:false
                   });
 }

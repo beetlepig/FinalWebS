@@ -19,49 +19,11 @@ function getProyectos(req, res) {
     });
 }
 
-let createPosts = function (req, res) {
-    let id_usuario = req.body.id_usuario;
-    let titulo= req.body.titulo;
-    let contenido= req.body.contenido;
-    let subtitulo = req.body.subtitulo;
-    let target = 30000;
-    let current = 0;
-    let extencion = req.file.originalname.split(".")[req.file.originalname.split(".").length -1];
-    let titulosinpuntos= titulo.replace(':', '');
-    let titulo_final= titulosinpuntos.replace(/\s+/g, '');
-    let targetPath = '../ServerDB/Posts/'+titulo_final+"."+id_usuario+'/' +titulo_final+"_"+id_usuario+"_PostImg" +"."+extencion;
-    console.log(id_usuario);
-    console.log(titulo);
-    console.log(subtitulo);
-    console.log(target);
-    console.log(current);
-    console.log(contenido);
-    console.log(targetPath);
-    console.log(req.file.originalname);
+let createProyecto = function (req, res) {
+    let nombre = req.body.nombre;
+    let creador= req.body.creador;
 
-    mkdirp('../ServerDB/Posts/'+titulo_final+"."+id_usuario+'/', function(err) {
-
-        if(!err){
-            fs.rename(req.file.path, targetPath, function(err) {
-                if (err) {
-
-                    throw err;
-                }
-
-
-            });
-        } else{
-            console.log(err);
-        }
-
-    });
-
-
-
-
-    let src= titulo_final+"."+id_usuario+'/' + titulo_final+"_"+id_usuario+"_PostImg" +"."+extencion;
-    console.log(src);
-    DB.create(id_usuario,titulo, subtitulo, contenido, target, current , src, function(err, result) {
+    DB.create(nombre, creador, function(err, result) {
 
         if (err) {
             console.log(err);
@@ -95,6 +57,6 @@ DB.setLike(id_usuario,id_post, function (err, result) {
 
 module.exports = {
     getProyectos,
-    createPosts,
+    createProyecto,
     setLike
 };

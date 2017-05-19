@@ -17,7 +17,7 @@ router.post('/users/create' ,users.createUser);
 
 router.post('/proyectos', proyectos.getProyectos);
 
-router.post('/posts/create', proyectos.createPosts);
+router.post('/proyectos/create', proyectos.createProyecto);
 
 router.post('/like',proyectos.setLike);
 

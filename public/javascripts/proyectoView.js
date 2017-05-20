@@ -1,60 +1,64 @@
+/**
+ * Created by sky_k on 19/05/2017.
+ */
 let urlimg;
 let id_usu;
 let jsonUsu;
-let proyectos;
+let proyectoSel;
 
-const formitoCrear=$('#crearposti');
+const formitoCrear= $('#formitoCrear');
+
 
 
 //VERIFICA SI HE INICIADO SESION
 if(!sessionStorage.datos){
     window.location.replace('/');
+} else if(!sessionStorage.proyectoSel){
+    window.location.replace('/proyectos');
 } else {
     jsonUsu=JSON.parse(sessionStorage.datos);
     urlimg= "http://localhost:3000/Users/"+jsonUsu.profilePic;
     id_usu= jsonUsu.correo;
-    console.log(jsonUsu);
-    solicutarProyectos();
+    proyectoSel= JSON.parse(sessionStorage.proyectoSel);
+    console.log(proyectoSel);
+    init();
 }
 
 
 
+function init() {
+    $('#nombreProyecto').text(proyectoSel.nombre);
+    $('#myRol').text(proyectoSel.rol);
+    solicitarMiembros();
 
-function solicutarProyectos() {
-    postAjax("/api/proyectos",{creador:id_usu}).always((data,status)=>{
+}
+
+
+function solicitarMiembros() {
+    console.log("entro");
+    postAjax("/api/miembros",{id_proyecto:proyectoSel.id}).always((data,status)=>{
         if(status==="error"){
             window.alert(data.responseText);
         } else {
-            window.alert("correcto");
             console.log(data);
-            sessionStorage.proyectos= JSON.stringify(data);
-            proyectos=JSON.parse(sessionStorage.proyectos);
             let listi= $('#listin');
-
-            //data contiene un array con los proyectos, el parametro nombre es el nombre del proyecto
             listi.empty();
             $.each(data,(i,value)=>{
-                let button= $("<button>"+value.nombre+"</button>").click(function () {
-                    abrirProyecto(value.nombre);
-                });
-                let item= $('<li>').append(button);
+                let hfive= $("<h5>"+value.id_user+"</h5>");
+                let item= $('<li>').append(hfive);
                 listi.append(item);
             });
-
-
-
         }
     })
 }
 
-
-
 //LISTENERS
+
 formitoCrear.submit((event)=>{
     event.preventDefault();
     const url= formitoCrear.prop('action');
     const formito= new FormData(formitoCrear[0]);
-    formito.append("creador",id_usu);
+    formito.append("id_proyecto",proyectoSel.id);
     for (let pair of formito.entries()) {
         console.log(pair[0]+ ', ' + pair[1]);
     }
@@ -63,26 +67,11 @@ formitoCrear.submit((event)=>{
             window.alert(data.responseText);
         } else {
             window.alert("correcto");
-            solicutarProyectos();
+            solicitarMiembros();
         }
     })
 
 });
-
-//----------------------------------------------------------------------------------------------------
-
-function abrirProyecto(name) {
-$.each(proyectos,(index,value)=>{
-    if(name===value.nombre){
-        sessionStorage.proyectoSel=JSON.stringify(value);
-        console.log(JSON.parse(sessionStorage.proyectoSel));
-        window.location.replace("./view");
-    }
-})
-
-
-}
-
 
 
 
@@ -98,6 +87,8 @@ function postAjax(url,data) {
                       type: 'POST',
                   });
 }
+
+
 
 function postAjaxFormData(url,data) {
     return $.ajax({

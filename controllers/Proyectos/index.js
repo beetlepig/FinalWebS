@@ -22,8 +22,9 @@ function getProyectos(req, res) {
 let createProyecto = function (req, res) {
     let nombre = req.body.nombre;
     let creador= req.body.creador;
+    let rol= req.body.rol;
 
-    DB.create(nombre, creador, function(err, result) {
+    DB.create(nombre, creador, rol, function(err, result) {
 
         if (err) {
             console.log(err);
@@ -38,25 +39,10 @@ let createProyecto = function (req, res) {
 };
 
 
-function setLike(req, res) {
-let id_usuario=req.body.id_usuario;
-let id_post=req.body.id_post;
-DB.setLike(id_usuario,id_post, function (err, result) {
-    if (err){
-        console.log(err);
-        res.status(500).json(err);
-    }else {
-        console.log(result);
-        res.status(200).json(result);
-
-    }
-});
-}
 
 
 
 module.exports = {
     getProyectos,
-    createProyecto,
-    setLike
+    createProyecto
 };

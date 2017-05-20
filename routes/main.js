@@ -18,6 +18,11 @@ router.get('/proyectos',(req,res,next)=>{
     res.render("proyectos");
 });
 
+router.get('/proyectos/view',(req,res,next)=>{
+    res.render("vistaProyecto");
+});
+
+
 
 
 

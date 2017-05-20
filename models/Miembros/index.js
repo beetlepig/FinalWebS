@@ -1,16 +1,16 @@
 let db = require('../../DBMYSQL/index');
 
 
-exports.getAll = function(creador,done) {
+exports.getAll = function(id_proyecto,done) {
     db.get().getConnection(function (err,connection) {
         if (err){
             connection.release();
             console.log(err);
             return done(err,null);
         } else {
-            connection.query('SELECT * FROM proyecto WHERE `creador` = ?',creador, function (err, rows)  {
+            connection.query('SELECT * FROM miembros WHERE `proyecto_id` = ?',id_proyecto, function (err, rows)  {
                 if (err) {
-                    return done(err);
+                    return done(err, null);
                 }else {
                     done(null, rows);
                 }
@@ -23,9 +23,8 @@ exports.getAll = function(creador,done) {
 
 };
 
-
-exports.create = function(nombre, creador , rol, done) {
-    let values= [nombre, creador, rol];
+exports.create = function(correo, proyecto , rol, done) {
+    let values= [correo, proyecto, rol];
 
     db.get().getConnection(function (err,connection) {
         if (err){
@@ -33,7 +32,7 @@ exports.create = function(nombre, creador , rol, done) {
             console.log(err);
             return done(err);
         } else {
-            connection.query('INSERT INTO proyecto (nombre, creador, rol) VALUES(?, ?, ?)', values, function(err, result) {
+            connection.query('INSERT INTO miembros (id_user, proyecto_id, rol) VALUES(?, ?, ?)', values, function(err, result) {
                 if (err) {
                     console.log(err);
                     return done(err);

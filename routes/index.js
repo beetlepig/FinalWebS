@@ -4,6 +4,8 @@ let users = require('../controllers/users/index');
 
 let proyectos = require('../controllers/Proyectos/index');
 
+let miembros = require('../controllers/Miembros/index');
+
 let app= require('../app');
 
 
@@ -19,7 +21,9 @@ router.post('/proyectos', proyectos.getProyectos);
 
 router.post('/proyectos/create', proyectos.createProyecto);
 
-router.post('/like',proyectos.setLike);
+router.post('/miembros',miembros.getMiembros);
+
+router.post('/miembros/create',miembros.createMiembro);
 
 
 

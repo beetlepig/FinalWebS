@@ -8,7 +8,7 @@ exports.getAll = function(creador,done) {
             console.log(err);
             return done(err,null);
         } else {
-            connection.query('SELECT * FROM proyecto WHERE `creador` = ?',creador, function (err, rows)  {
+            connection.query('SELECT * FROM miembros m join proyecto p   on m.proyecto_id = p.id WHERE m.`id_user` = ?',creador, function (err, rows)  {
                 if (err) {
                     return done(err);
                 }else {

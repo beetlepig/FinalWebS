@@ -21,6 +21,13 @@
     <div id="tareas">
 
     </div>
+
+    <form action='/api/tareas/create' method='post' id="formTarea">
+        <input type='text' placeholder='tarea' name='tareaCrear' required>
+        <input type='date' name='fechaCrear' placeholder='fecha' required>
+        <input type='time' name='horaCrear' placeholder='fecha' required>
+        <button type='submit'>enviar</button>
+    </form>
 </div>
 
 

@@ -22,6 +22,7 @@ if(!sessionStorage.datos){
     id_usu= jsonUsu.correo;
     proyectoSel= JSON.parse(sessionStorage.proyectoSel);
     console.log(proyectoSel);
+    $('#formTarea').hide();
     init();
 }
 
@@ -48,6 +49,7 @@ function solicitarMiembros() {
             $.each(data,(i,value)=>{
                 let hfive= $("<button>"+value.id_user+"</button>").click(function () {
                     abrirMiembro(value.id_user);
+                    $('#formTarea').show();
                 });
                 let item= $('<li>').append(hfive);
                 listi.append(item);
@@ -83,14 +85,6 @@ function abrirMiembro(id_member) {
                 divi.append(hfiveTarea);
                 divi.append(hfiveEntrega);
                 divi.append(hfiveHora);
-                let formin= $("<form action='/api/tareas/create' method='post'>");
-                let tareaInput= $("<input type='text' placeholder='tarea' name='tareaCrear'>");
-                let fechaInput= $("<input type='date' name='fechaCrear' placeholder='fecha'>");
-                let boton= $("<button type='submit'>"+'enviar'+"</button>");
-                formin.append(tareaInput);
-                formin.append(fechaInput);
-                formin.append(boton);
-                divi.append(formin);
 
             });
         }
@@ -117,6 +111,40 @@ formitoCrear.submit((event)=>{
     })
 
 });
+
+$('#formTarea').submit(function (event) {
+   event.preventDefault();
+    crearTarea($(this).serializeArray(),$(this).attr('action'));
+});
+
+//-------------------------------------------------------------------------------------------------
+
+function crearTarea(array,url) {
+    //NO CAMBIAR LAS POSICIONES DEL ARRAY
+    let fechaCompleta= array[1].value+" "+array[2].value+":00";
+    let tarea= array[0].value;
+    const miembro= memberSel;
+    const proyecto= proyectoSel.id;
+    let direccion= url;
+    console.log("tarea: "+tarea);
+    console.log("hora: "+fechaCompleta);
+    console.log("miembro: "+miembro);
+    console.log("proyecto: "+proyecto);
+    console.log("direccion: "+direccion);
+    postAjax(direccion,{
+        "memberCorrein": miembro,
+        "id_proyecto": proyecto,
+        "tarea": tarea,
+        "fecha": fechaCompleta
+    }).always((data,status)=>{
+        if(status==="error"){
+            window.alert(data.responseText);
+        } else {
+            console.log(data);
+            abrirMiembro(memberSel);
+        }
+    })
+}
 
 
 

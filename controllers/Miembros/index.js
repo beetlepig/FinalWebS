@@ -35,6 +35,29 @@ function getTareas (req, res) {
     });
 }
 
+function crearTarea (req, res) {
+    let membrerCorreo= req.body.memberCorrein;
+    console.log(membrerCorreo);
+    let id_proyecto= req.body.id_proyecto;
+    console.log(id_proyecto);
+    let tareina= req.body.tarea;
+    console.log(tareina);
+    let fechina= req.body.fecha;
+    console.log(fechina);
+    DB.createTarea(membrerCorreo , id_proyecto,tareina, fechina, function(error, miembros) {
+        if (!error) {
+            console.log(miembros);
+            res.status(200).json(miembros);
+
+        } else {
+
+            console.log(error);
+            res.status(500).json(error);
+        }
+
+    });
+}
+
 let createMiembro = function (req, res) {
     const correo = req.body.correin;
     const roli= req.body.rolin;
@@ -58,5 +81,6 @@ let createMiembro = function (req, res) {
 module.exports ={
     getMiembros,
     createMiembro,
-    getTareas
+    getTareas,
+    crearTarea
 };

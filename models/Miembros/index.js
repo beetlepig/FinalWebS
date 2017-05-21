@@ -46,6 +46,29 @@ exports.getAllTareas = function(correo_member, id_proyecto, done) {
 
 };
 
+exports.createTarea = function(correo_member, id_proyecto, tarea, fecha, done) {
+    let values= [id_proyecto,correo_member, tarea, fecha];
+    db.get().getConnection(function (err,connection) {
+        if (err){
+            connection.release();
+            console.log(err);
+            return done(err,null);
+        } else {
+            connection.query('INSERT INTO tareas ( id_proyecto, id_usuario, tarea, fecha_entrega ) VALUES( ?, ?, ?, ?)',values, function (err, rows)  {
+                if (err) {
+                    return done(err, null);
+                }else {
+                    done(null, rows);
+                }
+            });
+
+            connection.release();
+        }
+
+    });
+
+};
+
 
 
 

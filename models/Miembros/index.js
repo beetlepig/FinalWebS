@@ -23,6 +23,32 @@ exports.getAll = function(id_proyecto,done) {
 
 };
 
+exports.getAllTareas = function(correo_member, id_proyecto, done) {
+    let values= [id_proyecto,correo_member];
+    db.get().getConnection(function (err,connection) {
+        if (err){
+            connection.release();
+            console.log(err);
+            return done(err,null);
+        } else {
+            connection.query('SELECT * FROM tareas where `id_proyecto` = ? and `id_usuario` = ?',values, function (err, rows)  {
+                if (err) {
+                    return done(err, null);
+                }else {
+                    done(null, rows);
+                }
+            });
+
+            connection.release();
+        }
+
+    });
+
+};
+
+
+
+
 exports.create = function(correo, proyecto , rol, done) {
     let values= [correo, proyecto, rol];
 

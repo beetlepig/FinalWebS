@@ -25,6 +25,8 @@ router.post('/miembros',miembros.getMiembros);
 
 router.post('/miembros/create',miembros.createMiembro);
 
+router.post('/miembros/view',miembros.getTareas);
+
 
 
 

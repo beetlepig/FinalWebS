@@ -5,6 +5,7 @@ let urlimg;
 let id_usu;
 let jsonUsu;
 let proyectoSel;
+let memberSel;
 
 const formitoCrear= $('#formitoCrear');
 
@@ -24,6 +25,7 @@ if(!sessionStorage.datos){
     init();
 }
 
+//--------------------------------------------------
 
 
 function init() {
@@ -44,7 +46,9 @@ function solicitarMiembros() {
             let listi= $('#listin');
             listi.empty();
             $.each(data,(i,value)=>{
-                let hfive= $("<h5>"+value.id_user+"</h5>");
+                let hfive= $("<button>"+value.id_user+"</button>").click(function () {
+                    abrirMiembro(value.id_user);
+                });
                 let item= $('<li>').append(hfive);
                 listi.append(item);
             });
@@ -52,8 +56,49 @@ function solicitarMiembros() {
     })
 }
 
-//LISTENERS
 
+function abrirMiembro(id_member) {
+    console.log(id_member);
+    memberSel= id_member;
+    postAjax("/api/miembros/view",
+             {
+                 id_proyecto:proyectoSel.id,
+                 memberCorrein:id_member
+
+              }
+    ).always((data,status)=>{
+        if(status==="error"){
+            window.alert(data.responseText);
+        } else {
+            console.log(data);
+            let divi= $('#tareas');
+            divi.empty();
+            $.each(data,(i,value)=>{
+                let hfiveTarea= $("<h5>"+'tarea: '+value.tarea+"</h5>");
+                let fecha= value.fecha_entrega.split("T")[0];
+                let hora= value.fecha_entrega.split("T")[1];
+                let hfiveEntrega= $("<h5>"+'Entrega: '+fecha+"</h5>");
+                let hfiveHora= $("<h5>"+'Hora: '+hora+"</h5>");
+
+                divi.append(hfiveTarea);
+                divi.append(hfiveEntrega);
+                divi.append(hfiveHora);
+                let formin= $("<form action='/api/tareas/create' method='post'>");
+                let tareaInput= $("<input type='text' placeholder='tarea' name='tareaCrear'>");
+                let fechaInput= $("<input type='date' name='fechaCrear' placeholder='fecha'>");
+                let boton= $("<button type='submit'>"+'enviar'+"</button>");
+                formin.append(tareaInput);
+                formin.append(fechaInput);
+                formin.append(boton);
+                divi.append(formin);
+
+            });
+        }
+    })
+}
+
+
+//LISTENERS
 formitoCrear.submit((event)=>{
     event.preventDefault();
     const url= formitoCrear.prop('action');
